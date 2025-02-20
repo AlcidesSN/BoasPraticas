@@ -1,0 +1,358 @@
+<ion-header>
+  <ion-grid>
+    <form>
+    <ion-row >
+      <ion-col class="header">
+        <ion-row>
+          <ion-label>Nome: {{ficha.nome}} </ion-label>
+        </ion-row>
+        <ion-row>
+          <ion-label>Classe: {{ficha.classe}} / {{ficha.nivel}} </ion-label>
+        </ion-row>
+      </ion-col>
+      <ion-col class="header">
+        <ion-row class="test">
+          <ion-label>Raça: {{ficha.raca}} </ion-label>
+        </ion-row>
+        <ion-row class="test">
+          <ion-label>BP: + {{modBP()}} </ion-label>
+        </ion-row>
+      </ion-col>
+      <ion-col>
+        <ion-row class="bnt">
+          <ion-button fill="clear" (click)="mudarConfigBasicas()">
+            <ion-icon slot="icon-only" name="cog-outline"></ion-icon>
+          </ion-button>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    </form>
+  </ion-grid>
+
+</ion-header>
+<ion-content>
+  <form [formGroup]="sheetForm">
+    <ion-grid>
+      <ion-row>
+        <!-- Imagem do personagem arredondada -->
+        <ion-col size="6">
+            <ion-button fill="clear" (click)="mudarImagem()">
+              <ion-img
+              [src]="ficha.imagemPersonagem"
+              alt="Imagem do personagem"
+            ></ion-img>
+          </ion-button>
+        </ion-col>
+        <!-- Card com HP, Mana e XP alinhado à direita -->
+        <ion-col size="6">
+          <div style="margin-bottom: 10px;">
+            <div style="color: red;">
+              <ion-input label="HP:"
+              type="number"
+              [(ngModel)]="ficha.hpAtual"
+              formControlName="hpAtual">
+            </ion-input>
+            </div>
+            <ion-progress-bar [value]="setVida()" color="danger" ></ion-progress-bar>
+          </div>
+          <div>
+            <div style="color: yellow; margin-bottom: 5px;">
+              <ion-input label="XP:"
+              type="number"
+              [(ngModel)]="ficha.xpAtual"
+              formControlName="xpAtual">
+            </ion-input>
+            </div>
+            <ion-progress-bar [value]="setXp()" color="warning"></ion-progress-bar>
+          </div>
+          <div style="padding-top: 15px;">
+            <ion-col>
+              <ion-label>AC: {{ficha.ac}}</ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label>Vel: {{ficha.vel}}</ion-label>
+            </ion-col>
+          </div>
+        </ion-col>
+      </ion-row>
+         <!-- Seis cards quadrados com inputs numéricos centralizados -->
+         <div class="atributos">
+           <ion-row>
+            <ion-col size="4">
+              <ion-card class="square-card">
+                <ion-card-header>
+                  <button (click)="rolldice(false,modAtributo(ficha.for))">
+                    <ion-card-title>FOR</ion-card-title>
+                  </button>
+                </ion-card-header>
+                <ion-card-content class="centered-input">
+                  <ion-input type="number"
+                  formControlName="for"
+                  [(ngModel)]="ficha.for"
+                  class="white-bg-input" >
+                </ion-input>
+                  <div>
+                    <ion-label>{{modAtributo(sheetForm.value['for'])}} </ion-label>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            <ion-col size="4">
+              <ion-card class="square-card">
+                <ion-card-header>
+                  <button (click)="rolldice(false,modAtributo(ficha.des))">
+                    <ion-card-title>DES</ion-card-title>
+                  </button>
+                </ion-card-header>
+                <ion-card-content class="centered-input">
+                  <ion-input type="number"
+                  formControlName="des"
+                  [(ngModel)]="ficha.des"
+                  class="white-bg-input"></ion-input>
+                  <div>
+                    <ion-label>{{modAtributo(sheetForm.value['des'])}} </ion-label>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            <ion-col size="4">
+              <ion-card class="square-card">
+                <ion-card-header>
+                  <button (click)="rolldice(false,modAtributo(ficha.con))">
+                    <ion-card-title>CON</ion-card-title>
+                  </button>
+                </ion-card-header>
+                <ion-card-content class="centered-input">
+                  <ion-input type="number"
+                  formControlName="con"
+                  [(ngModel)]="ficha.con"
+                  class="white-bg-input">
+                </ion-input>
+                  <div>
+                    <ion-label>{{modAtributo(sheetForm.value['con'])}} </ion-label>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+                 </ion-row>
+                 <ion-row>
+            <ion-col size="4">
+              <ion-card class="square-card">
+                <ion-card-header>
+                  <button (click)="rolldice(false,modAtributo(ficha.int))">
+                    <ion-card-title>INT</ion-card-title>
+                  </button>
+                </ion-card-header>
+                <ion-card-content class="centered-input">
+                  <ion-input type="number"
+                  [(ngModel)]="ficha.int"
+                  formControlName="int"
+                  class="white-bg-input">
+                </ion-input>
+                  <div>
+                    <ion-label>{{modAtributo(sheetForm.value['int'])}} </ion-label>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            <ion-col size="4">
+              <ion-card class="square-card">
+                <ion-card-header>
+                  <button (click)="rolldice(false,modAtributo(ficha.sab))">
+                    <ion-card-title>SAB</ion-card-title>
+                  </button>
+                </ion-card-header>
+                <ion-card-content class="centered-input">
+                  <ion-input type="number"
+                  formControlName="sab"
+                  [(ngModel)]="ficha.sab"
+                  class="white-bg-input">
+                </ion-input>
+                  <div>
+                    <ion-label>{{modAtributo(sheetForm.value['sab'])}} </ion-label>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            <ion-col size="4">
+              <ion-card class="square-card">
+                <ion-card-header>
+                  <button (click)="rolldice(false,modAtributo(ficha.car))">
+                    <ion-card-title>CAR</ion-card-title>
+                  </button>
+                </ion-card-header>
+                <ion-card-content class="centered-input">
+                  <ion-input type="number"
+                  [(ngModel)]="ficha.car"
+                  formControlName="car"
+                  class="white-bg-input">
+                </ion-input>
+                  <div>
+                    <ion-label>{{modAtributo(sheetForm.value['car'])}} </ion-label>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            </ion-row>
+         </div>
+
+    </ion-grid>
+  </form>
+  <ion-grid>
+    <form [formGroup]="periciasForm">
+      <ion-col>
+        <ion-row>
+          <!-- Lista de Habilidades -->
+          <ion-col size="12">
+            <ion-list>
+              <ion-item>
+                <ion-button fill="clear" classe="dice-bnt" (click)="rolldice(ficha.pericias.acrobacia, modAtributo(ficha.des) )">
+                  <ion-icon  aria-hidden="true" name="dice-outline"></ion-icon>
+                </ion-button>
+                <ion-checkbox   [(ngModel)]="ficha.pericias.acrobacia"
+                formControlName="acrobacia">Acrobacia
+              </ion-checkbox>
+              </ion-item>
+              <ion-item>
+                <ion-button fill="clear" classe="dice-bnt" (click)="rolldice(ficha.pericias.arcanismo, modAtributo(ficha.int) )">
+                  <ion-icon  aria-hidden="true" name="dice-outline"></ion-icon>
+                </ion-button>
+                <ion-checkbox   [(ngModel)]="ficha.pericias.arcanismo"
+                formControlName="arcanismo">Arcanismo
+              </ion-checkbox>
+              </ion-item>
+              <ion-item>
+                <ion-button fill="clear" classe="dice-bnt" (click)="rolldice(ficha.pericias.atletismo, modAtributo(ficha.for) )">
+                  <ion-icon  aria-hidden="true" name="dice-outline"></ion-icon>
+                </ion-button>
+                <ion-checkbox   [(ngModel)]="ficha.pericias.atletismo"
+                formControlName="atletismo">Atletismo
+              </ion-checkbox>
+              </ion-item>
+              <ion-item>
+                <ion-button fill="clear" classe="dice-bnt" (click)="rolldice(ficha.pericias.atuacao, modAtributo(ficha.car) )">
+                  <ion-icon  aria-hidden="true" name="dice-outline"></ion-icon>
+                </ion-button>
+                <ion-checkbox   [(ngModel)]="ficha.pericias.atuacao"
+                formControlName="atuacao">Atuacao
+              </ion-checkbox>
+              </ion-item>
+              <ion-item>
+                <ion-button fill="clear" classe="dice-bnt" (click)="rolldice(ficha.pericias.enganacao, modAtributo(ficha.car) )">
+                  <ion-icon  aria-hidden="true" name="dice-outline"></ion-icon>
+                </ion-button>
+                <ion-checkbox   [(ngModel)]="ficha.pericias.enganacao"
+                formControlName="enganacao">Enganação
+              </ion-checkbox>
+              </ion-item>
+              <ion-item>
+                <ion-button fill="clear" classe="dice-bnt" (click)="rolldice(ficha.pericias.furtividade, modAtributo(ficha.des) )">
+                  <ion-icon  aria-hidden="true" name="dice-outline"></ion-icon>
+                </ion-button>
+                <ion-checkbox   [(ngModel)]="ficha.pericias.furtividade"
+                formControlName="furtividade">Furtividade
+              </ion-checkbox>
+              </ion-item>
+              <ion-item>
+                <ion-button fill="clear" classe="dice-bnt" (click)="rolldice(ficha.pericias.hitoria, modAtributo(ficha.int) )">
+                  <ion-icon  aria-hidden="true" name="dice-outline"></ion-icon>
+                </ion-button>
+                <ion-checkbox   [(ngModel)]="ficha.pericias.hitoria"
+                formControlName="hitoria">hitoria
+              </ion-checkbox>
+              </ion-item>
+              <ion-item>
+                <ion-button fill="clear" classe="dice-bnt" (click)="rolldice(ficha.pericias.intimidacao, modAtributo(ficha.car) )">
+                  <ion-icon  aria-hidden="true" name="dice-outline"></ion-icon>
+                </ion-button>
+                <ion-checkbox   [(ngModel)]="ficha.pericias.intimidacao"
+                formControlName="intimidacao">Intimidação
+              </ion-checkbox>
+              </ion-item>
+              <ion-item>
+                <ion-button fill="clear" classe="dice-bnt" (click)="rolldice(ficha.pericias.intuicao, modAtributo(ficha.sab) )">
+                  <ion-icon  aria-hidden="true" name="dice-outline"></ion-icon>
+                </ion-button>
+                <ion-checkbox   [(ngModel)]="ficha.pericias.intuicao"
+                formControlName="intuicao">Intuição
+              </ion-checkbox>
+              </ion-item>
+              <ion-item>
+                <ion-button fill="clear" classe="dice-bnt" (click)="rolldice(ficha.pericias.investigacao, modAtributo(ficha.sab) )">
+                  <ion-icon  aria-hidden="true" name="dice-outline"></ion-icon>
+                </ion-button>
+                <ion-checkbox   [(ngModel)]="ficha.pericias.investigacao"
+                formControlName="investigacao">investigação
+              </ion-checkbox>
+              </ion-item>
+              <ion-item>
+                <ion-button fill="clear" classe="dice-bnt" (click)="rolldice(ficha.pericias.lidarComAnimais, modAtributo(ficha.sab) )">
+                  <ion-icon  aria-hidden="true" name="dice-outline"></ion-icon>
+                </ion-button>
+                <ion-checkbox   [(ngModel)]="ficha.pericias.lidarComAnimais"
+                formControlName="lidarComAnimais">Lidar com Animais
+              </ion-checkbox>
+              </ion-item>
+              <ion-item>
+                <ion-button fill="clear" classe="dice-bnt" (click)="rolldice(ficha.pericias.medicina, modAtributo(ficha.sab) )">
+                  <ion-icon  aria-hidden="true" name="dice-outline"></ion-icon>
+                </ion-button>
+                <ion-checkbox   [(ngModel)]="ficha.pericias.medicina"
+                formControlName="medicina">Medicina
+              </ion-checkbox>
+              </ion-item>
+              <ion-item>
+                <ion-button fill="clear" classe="dice-bnt" (click)="rolldice(ficha.pericias.natureza, modAtributo(ficha.int) )">
+                  <ion-icon  aria-hidden="true" name="dice-outline"></ion-icon>
+                </ion-button>
+                <ion-checkbox   [(ngModel)]="ficha.pericias.natureza"
+                formControlName="natureza">Natureza
+              </ion-checkbox>
+              </ion-item>
+              <ion-item>
+                <ion-button fill="clear" classe="dice-bnt" (click)="rolldice(ficha.pericias.persepcao, modAtributo(ficha.sab) )">
+                  <ion-icon  aria-hidden="true" name="dice-outline"></ion-icon>
+                </ion-button>
+                <ion-checkbox   [(ngModel)]="ficha.pericias.persepcao"
+                formControlName="persepcao">Persepção
+              </ion-checkbox>
+              </ion-item>
+              <ion-item>
+                <ion-button fill="clear" classe="dice-bnt" (click)="rolldice(ficha.pericias.persuasao, modAtributo(ficha.car) )">
+                  <ion-icon  aria-hidden="true" name="dice-outline"></ion-icon>
+                </ion-button>
+                <ion-checkbox   [(ngModel)]="ficha.pericias.persuasao"
+                formControlName="persuasao">Persuasão
+              </ion-checkbox>
+              </ion-item>
+              <ion-item>
+                <ion-button fill="clear" classe="dice-bnt" (click)="rolldice(ficha.pericias.prestidigitacao, modAtributo(ficha.des) )">
+                  <ion-icon  aria-hidden="true" name="dice-outline"></ion-icon>
+                </ion-button>
+                <ion-checkbox   [(ngModel)]="ficha.pericias.prestidigitacao"
+                formControlName="prestidigitacao">Prestidigitação
+              </ion-checkbox>
+              </ion-item>
+              <ion-item>
+                <ion-button fill="clear" classe="dice-bnt" (click)="rolldice(ficha.pericias.religiao, modAtributo(ficha.int) )">
+                  <ion-icon  aria-hidden="true" name="dice-outline"></ion-icon>
+                </ion-button>
+                <ion-checkbox   [(ngModel)]="ficha.pericias.religiao"
+                formControlName="religiao">Religião
+              </ion-checkbox>
+              </ion-item>
+              <ion-item>
+                <ion-button fill="clear" classe="dice-bnt" (click)="rolldice(ficha.pericias.sobrevivencia, modAtributo(ficha.sab) )">
+                  <ion-icon  aria-hidden="true" name="dice-outline"></ion-icon>
+                </ion-button>
+                <ion-checkbox   [(ngModel)]="ficha.pericias.sobrevivencia"
+                formControlName="sobrevivencia">Sobrevivencia
+              </ion-checkbox>
+              </ion-item>
+            </ion-list>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </form>
+  </ion-grid>
+</ion-content>

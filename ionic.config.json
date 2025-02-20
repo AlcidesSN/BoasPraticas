@@ -1,0 +1,7 @@
+{
+  "name": "DiceForge",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

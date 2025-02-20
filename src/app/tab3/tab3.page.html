@@ -1,0 +1,31 @@
+
+<ion-content [fullscreen]="true">
+  <h1>Habilidades</h1>
+  <ion-card>
+    <ion-card-header>
+    </ion-card-header>
+    <ion-card-content>
+          <ion-accordion-group class="content" *ngFor="let lh of habilidades; let ind = index">
+            <ion-accordion value="first" >
+              <ion-item slot="header">
+                <ion-label> {{lh.nome_habilidade}} </ion-label>
+              </ion-item>
+              <div class="ion-padding" slot="content">
+                <p><strong> Tipo: </strong>{{lh.tipo}}</p>
+                <p><strong> Usos: </strong>{{lh.usos}} / {{lh.recarga}}</p>
+                <p><strong> Descrição: </strong> {{lh.descricao}}</p>
+                <ion-row class="ion-justify-content-between">
+                  <ion-button (click)="apagarItem(ind)" color="danger" ><ion-icon slot="icon-only" name="trash" ></ion-icon></ion-button>
+                </ion-row>
+              </div>
+            </ion-accordion>
+          </ion-accordion-group>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-fab (click)="openCriarHabilidade()" id="popover-button" slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab-button >
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+</ion-content>

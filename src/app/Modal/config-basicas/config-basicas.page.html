@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-input [(ngModel)]="base.nome" label="Nome do Personagem" label-placement="floating" fill="solid" ></ion-input>
+  <ion-input [(ngModel)]="base.raca" label="Raça do Personagem" label-placement="floating" fill="solid" ></ion-input>
+  <ion-input [(ngModel)]="base.classe" label="Classe" label-placement="floating" fill="solid" ></ion-input>    
+  <ion-input type="number" [(ngModel)]="base.maxHp" label="HPMax" label-placement="floating" fill="solid"></ion-input>
+  <ion-input type="number" [(ngModel)]="base.ac" label="Armadura" label-placement="floating" fill="solid"></ion-input>
+  <ion-input [(ngModel)]="base.vel" label="Velocidade" label-placement="floating" fill="solid"></ion-input>
+  <ion-select 
+      fill="solid"
+      [(ngModel)]="base.nivel"
+      interface="popover"
+      label="Nivel"
+      label-placement="floating"
+    >
+      <ion-select-option value="1" >Nivel: 1</ion-select-option>
+      <ion-select-option value="2" >Nivel: 2</ion-select-option>
+      <ion-select-option value="3" >Nivel: 3</ion-select-option>
+      <ion-select-option value="4" >Nivel: 4</ion-select-option>
+      <ion-select-option value="5" >Nivel: 5</ion-select-option>
+      <ion-select-option value="6" >Nivel: 6</ion-select-option>
+      <ion-select-option value="7" >Nivel: 7</ion-select-option>
+      <ion-select-option value="8" >Nivel: 8</ion-select-option>
+      <ion-select-option value="9" >Nivel: 9</ion-select-option>
+      <ion-select-option value="10" >Nivel: 10</ion-select-option>
+      <ion-select-option value="11" >Nivel: 11</ion-select-option>
+      <ion-select-option value="12" >Nivel: 12</ion-select-option>
+      <ion-select-option value="13" >Nivel: 13</ion-select-option>
+      <ion-select-option value="14" >Nivel: 14</ion-select-option>
+      <ion-select-option value="15" >Nivel: 15</ion-select-option>
+      <ion-select-option value="16" >Nivel: 16</ion-select-option>
+      <ion-select-option value="17" >Nivel: 17</ion-select-option>
+      <ion-select-option value="18" >Nivel: 18</ion-select-option>
+      <ion-select-option value="19" >Nivel: 19</ion-select-option>
+      <ion-select-option value="20" >Nivel: 20</ion-select-option>
+    </ion-select>
+</ion-content>

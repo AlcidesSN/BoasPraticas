@@ -1,0 +1,30 @@
+<ion-content [fullscreen]="true">
+  <h1>Equipamentos</h1>
+  <ion-card>
+    <ion-card-header>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-accordion-group class="content" *ngFor="let eq of equipamento; let i = index ">
+        <ion-accordion value="first">
+          <ion-item slot="header">
+            <ion-label>{{eq.nome_Equipamento}}</ion-label>
+          </ion-item>
+          <div class="ion-padding" slot="content">
+            <p><strong> Alcance: </strong>{{eq.alcance}} </p>
+            <p><strong> Dano: </strong>{{eq.dano}} </p>
+            <p><strong> Proproedades: </strong>{{eq.propriedades}}</p>
+            <ion-row class="ion-justify-content-between">
+              <ion-button color="danger" (click)="apagarItem(i)" ><ion-icon slot="icon-only" name="trash" ></ion-icon></ion-button>
+              <ion-button color="primary" (click)="rolarDado(i)" ><ion-icon slot="icon-only" name="dice-outline" ></ion-icon></ion-button>
+            </ion-row>
+          </div>
+        </ion-accordion>
+      </ion-accordion-group>
+    </ion-card-content>
+  </ion-card>
+<ion-fab slot="fixed" vertical="bottom" horizontal="end" (click)="openCriarEquipamento()">
+  <ion-fab-button>
+    <ion-icon name="add" ></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+</ion-content>

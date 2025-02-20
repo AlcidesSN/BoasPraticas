@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+  <ion-content>
+      <ion-item>
+        <ion-input [(ngModel)]="habilidades.nome_habilidade" label="Nome da Habilidade" label-placement="floating" ></ion-input>
+      </ion-item>
+      <ion-row>
+          <ion-select
+              interface="popover"
+              label="Tipo da Habilidade"
+              label-placement="floating"
+              id="collum"
+              class="content"
+              [(ngModel)]="habilidades.tipo"
+            >
+              <ion-select-option value="Passiva">Passiva</ion-select-option>
+              <ion-select-option value="Ativa">Ativa</ion-select-option>
+            </ion-select>
+      </ion-row>
+      <ion-row>
+        <ion-item class="collum">
+          <ion-input [(ngModel)]="habilidades.usos" label="Número de Usos" label-placement="floating"></ion-input>
+            <ion-select
+                interface="popover"
+                label="Recarga"
+                label-placement="floating"
+                class="collum"
+                type="number"
+                [(ngModel)]="habilidades.recarga"
+                >
+                <ion-select-option value="Sempre Ativa">Sempre Ativa</ion-select-option>
+                <ion-select-option value="Descanso Curto">Descanso Curto</ion-select-option>
+                <ion-select-option value="Descanso Longo">Descanso Longo</ion-select-option>
+              </ion-select>
+        </ion-item>
+
+      </ion-row>
+      <ion-item>
+        <ion-textarea [(ngModel)]="habilidades.descricao" label="Descrição da Habilidade" label-placement="floating" ></ion-textarea>
+      </ion-item>
+</ion-content>

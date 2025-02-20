@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-input class="content"[(ngModel)]="equipamento.nome_Equipamento" label="Nome do Equipamentos" label-placement="floating" fill="solid" ></ion-input>
+  <ion-row>
+    <ion-select
+      interface="popover"
+      label="Alcance da Arma"
+      [(ngModel)]="equipamento.alcance"
+      label-placement="floating"
+      class="content"
+    >
+      <ion-select-option value="1.5m">1.5m</ion-select-option>
+      <ion-select-option value="1.5m/4.5">1.5m/4.5</ion-select-option>
+      <ion-select-option value="7.5m/30m">7.5m/30m</ion-select-option>
+      <ion-select-option value="6m/18m">6m/18m</ion-select-option>
+      <ion-select-option value="9m/36m">9m/36m</ion-select-option>
+      <ion-select-option value="24m/96m">24m/96m</ion-select-option>
+      <ion-select-option value="30m/120m">30m/120m</ion-select-option>
+      <ion-select-option value="45m/180m">45m/180m</ion-select-option>
+    </ion-select>
+  </ion-row>
+  <ion-row>
+    <ion-select
+      interface="popover"
+      label="Dano da Arma"
+      [(ngModel)]="equipamento.dano"
+      label-placement="floating"
+      class="content"
+    >
+      <ion-select-option value="1d4">1d4</ion-select-option>
+      <ion-select-option value="1d6">1d6</ion-select-option>
+      <ion-select-option value="1d8">1d8</ion-select-option>
+      <ion-select-option value="1d10">1d10</ion-select-option>
+      <ion-select-option value="1d12">1d12</ion-select-option>
+      <ion-select-option value="2d6">2d6</ion-select-option>
+    </ion-select>
+  </ion-row>
+  <ion-row>
+    <ion-select
+      interface="popover"
+      label="Propriedades da Arma"
+      label-placement="floating"
+      [(ngModel)]="equipamento.propriedades"
+      [multiple]="true"
+      class="content"
+    >
+      <ion-select-option value="Leve">Leve</ion-select-option>
+      <ion-select-option value="Pesada">Pesada</ion-select-option>
+      <ion-select-option value="Versátil">Versátil</ion-select-option>
+      <ion-select-option value="Duas mãos">Duas mãos</ion-select-option>
+      <ion-select-option value="Acuidade">Acuidade</ion-select-option>
+      <ion-select-option value="Alcance">Alcance</ion-select-option>
+      <ion-select-option value="Arremesso">Arremesso</ion-select-option>
+      <ion-select-option value="Distância">Distância</ion-select-option>
+      <ion-select-option value="Recarga">Recarga</ion-select-option>
+    </ion-select>
+  </ion-row>
+</ion-content>
+
+
+

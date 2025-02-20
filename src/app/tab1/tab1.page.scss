@@ -1,0 +1,86 @@
+ion-img{
+  max-width: 180px;
+  max-height: 180px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+/* Estilos para o card da imagem do personagem */
+
+/* Estilos para o card do HP, Mana e XP */
+.hp-mana-xp-card {
+  text-align: right;
+}
+
+.hp-mana-xp-card div {
+  margin-bottom: 10px;
+}
+
+.hp-mana-xp-card div:last-child {
+  margin-bottom: 0;
+}
+
+
+
+/* Estilo para fundo branco dos inputs */
+.white-bg-input {
+  --background: white;
+  font-size: x-large;
+  color: black;
+
+}
+
+
+/* Estilo para os cards quadrados */
+.square-card {
+  text-align: center;
+  width: 100%;
+  max-width: 300px;
+  max-height: 300px;
+  height: 0;
+  margin: 0;
+  padding-bottom: 100%; /* Faz o card ser quadrado */
+}
+.square-card ion-card-header{
+  padding: 8px;
+}
+
+.square-card ion-card-content {
+  position: center;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 90%;
+  padding-left: 17px;
+}
+.square-card div{
+  width: 20px;
+  height: 20px;
+  background-color: antiquewhite;
+  border-radius: 50%;
+  margin-left: 30%;
+  margin-top: 12%;
+  color: black;
+}
+.square-card button, .imagemPersonagemBNT{
+  background-color: #00000000;
+}
+.square-card ion-card-title:active{
+  color: red;
+}
+.icon-spacing{
+  padding-right: 10px;
+}
+
+
+.header ion-row{
+  width: 135%;
+  
+}
+.bnt{
+  justify-content: end;
+}
+.test{
+justify-content: end;
+} 

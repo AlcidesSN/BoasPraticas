@@ -1,0 +1,33 @@
+<ion-content [fullscreen]="true">
+  <h1>Magias</h1>
+<ion-card *ngFor="let c of circulo">
+  <ion-card-header *ngIf=" c > 0 ">
+    <ion-card-title>{{c}}° Circulo</ion-card-title>
+  </ion-card-header>
+    <ion-card-header *ngIf=" c == 0 ">
+    <ion-card-title>Truques</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+        <ion-accordion-group class="content"  *ngFor="let i of magias; let ind = index" >
+          <ion-accordion value="first" *ngIf="i.circuloMagia == c" >
+            <ion-item slot="header">
+              <ion-label> {{i.nome}} </ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <p><strong>Tempo de Conjuração:</strong> {{i.conjuracao}} </p>
+              <p><strong>Duração:</strong> {{i.duracao}}</p>
+              <p><strong>Componentes:</strong>{{i.componentes}}</p>
+              <p><strong>Descrição: </strong>{{i.descricao}}</p>
+              <ion-button color="danger" (click)="apagarItem(ind)"><ion-icon slot="icon-only" name="trash" ></ion-icon></ion-button>
+            </div>
+          </ion-accordion>
+        </ion-accordion-group>
+  </ion-card-content>
+</ion-card>
+
+<ion-fab (click)="openCriarMagias()" id="popover-button" slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab-button >
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+</ion-content>
