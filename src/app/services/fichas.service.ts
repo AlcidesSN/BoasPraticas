@@ -7,8 +7,9 @@ import { Ficha, Pericias } from 'src/model/ficha';
 @Injectable({
   providedIn: 'root'
 })
+/* O construtor abaixo possui os valores padrões do programa a fim de inicializa-lo sem nenhum tipo de problema ou conflito. */
 export class FichasService {
-
+  
   constructor(public storage: Storage) {
     this.storage.create();
    }
@@ -59,8 +60,8 @@ export class FichasService {
     habilidades: this.habilidades,
     magias: this.magias
    };
-
-  getAll():Promise<Ficha[]>{
+  /* Aqui e realizado um get de todas as informacoes (modelo e valores) da ficha salva no storage e faz uma verificao se ela existe. */
+  pegarInformacoes():Promise<Ficha[]>{
     let fichas:Ficha[] = [];
 
     return this.storage.forEach(function(ficha,key, i){
@@ -68,19 +69,19 @@ export class FichasService {
     }).then(() => Promise.resolve(fichas))
       .catch(() => Promise.reject('Erro ao recuperara os dados!'));
   }
-  set(key:string,value:Ficha|undefined){
+  definir(key:string,value:Ficha|undefined){
     this.storage.set(key,value);
   }
 
-  get(key:string){
+  pegar(key:string){
     return this.storage.get(key);
   }
   salvarPersonagem(personagem:Ficha, pericias:Pericias){
-    this.getAll()
+    this.pegarInformacoes()
     .then((ficha) => {
       if(ficha[0]== undefined){
         console.log(this.personagem)
-        this.salvarOnBD(this.personagem);
+        this.salvarnoBD(this.personagem);
         return;
       }
       this.personagem = personagem;
@@ -89,16 +90,16 @@ export class FichasService {
       this.personagem.habilidades = ficha[0].habilidades;
       this.personagem.magias = ficha[0].magias;
 
-      this.salvarOnBD(this.personagem);
+      this.salvarnoBD(this.personagem);
     })
     //.catch((err) => alert(err));
   }
   salvarPersonageml(personagem:Ficha, pericias:Pericias, nome:string, classe:string, nivel:string){
-    this.getAll()
+    this.pegarInformacoes()
     .then((ficha) => {
       if(ficha[0]== undefined){
         console.log(this.personagem)
-        this.salvarOnBD(this.personagem);
+        this.salvarnoBD(this.personagem);
         return;
       }
       this.personagem = personagem;
@@ -107,40 +108,40 @@ export class FichasService {
       this.personagem.habilidades = ficha[0].habilidades;
       this.personagem.magias = ficha[0].magias;
 
-      this.salvarOnBD(this.personagem);
+      this.salvarnoBD(this.personagem);
     })
     //.catch((err) => alert(err));
   }
   salvarEquipamento(Equipamentos:Equipamento[]){
-    this.getAll()
+    this.pegarInformacoes()
     .then((ficha) => {
       ficha[0].equipamentos = Equipamentos;
-      this.salvarOnBD(ficha[0]);
+      this.salvarnoBD(ficha[0]);
     })
     .catch((err) => alert(err));
   }
 
   salvarHabilidades(habilidades:Habilidades[]){
-    this.getAll()
+    this.pegarInformacoes()
     .then((ficha) => {
       ficha[0].habilidades = habilidades;
-      this.salvarOnBD(ficha[0]);
+      this.salvarnoBD(ficha[0]);
     })
     .catch((err) => alert(err));
   }
 
   salvarMagias(magias:Magias[]){
-    this.getAll()
+    this.pegarInformacoes()
     .then((ficha) => {
       ficha[0].magias = magias;
-      this.salvarOnBD(ficha[0]);
+      this.salvarnoBD(ficha[0]);
     })
     .catch((err) => alert(err));
   }
 
-  salvarOnBD(personagem:Ficha){
+  salvarnoBD(personagem:Ficha){
     //console.log(personagem.equipamentos)
-    this.set('ficha01', personagem);
+    this.definir('ficha01', personagem);
   }
 
 }

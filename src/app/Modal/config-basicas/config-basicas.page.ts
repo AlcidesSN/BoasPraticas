@@ -32,7 +32,7 @@ export class ConfigBasicasPage implements OnInit {
   constructor(private modalCtrl:ModalController, private storageProvider:FichasService) { }
 
   pegarInfo(){
-    this.storageProvider.getAll()
+    this.storageProvider.pegarInformacoes()
     .then((ficha) => {
       this.base.nome = ficha[0].nome;
       this.base.classe = ficha[0].classe;

@@ -68,37 +68,40 @@ export class Tab1Page implements OnInit{
   sheetForm:FormGroup = new FormGroup({});
   periciasForm:FormGroup = new FormGroup({});
 
-
+  //Alterado check old version, apenas mencione esta parte e diga que partes do código foram alterados para a mesma linguagem, português de brazil
   constructor(
-    private formBuilder: FormBuilder,
-    private storageProvider:FichasService,
-    private modalCtrl: ModalController,
-    private diceRoler:RolldicesService
+    private construtorForm: FormBuilder,
+    private forneceDados:FichasService,
+    private controle: ModalController,
+    private rolagem: RolldicesService
   ) {
     this.initializePericias();
     this.initializeForm();
     this.pegarFormumario();
-    setInterval(() => {this.salvarForm();},1000)
+    this.atualizador();
   }
 
-  setVida():number{
+  definirVida():number{
     return this.ficha.hpAtual / this.ficha.hpMax;
   }
-  setXp():number{
+  definirXP():number{
     return this.ficha.xpAtual / this.ficha.xpNextNivel;
   }
   modAtributo(atributo:number):number{
     return (Math.floor((atributo - 10)/2));
   }
   salvarForm(){
-    this.storageProvider.salvarPersonagem(this.ficha,this.ficha.pericias);
+    this.forneceDados.salvarPersonagem(this.ficha,this.ficha.pericias);
+  }
+  atualizador():void{
+    setInterval(() => {this.salvarForm();},1000)
   }
   pegarFormumario(){
-    this.storageProvider.getAll()
+    this.forneceDados.pegarInformacoes()
     .then((ficha) => {
       if(ficha[0]== undefined){
         this.sheetForm.value['pericias'] = this.periciasForm.value;
-        this.storageProvider.salvarPersonagem(this.sheetForm.value, this.sheetForm.value['pericias']);
+        this.forneceDados.salvarPersonagem(this.sheetForm.value, this.sheetForm.value['pericias']);
         return;
       }
       this.ficha = ficha[0];
@@ -107,21 +110,22 @@ export class Tab1Page implements OnInit{
       this.ficha.pericias = ficha[0].pericias;
     })
   }
+  //Alterado check old version
   modBP():number {
-    if (this.ficha.nivel <= 1 && this.ficha.nivel <= 4) {
+    if (this.bonusIniciante()) {
       return 2;
-    }else if (this.ficha.nivel <= 5 && this.ficha.nivel <= 8) {
+    }else if (this.bonusAventureiro()) {
       return 3;
-    }else if (this.ficha.nivel <= 9 && this.ficha.nivel <= 12) {
+    }else if (this.bonusAvancado()) {
       return 4;
-    }else if (this.ficha.nivel <= 13 && this.ficha.nivel <= 16) {
+    }else if (this.bonusExperiente()) {
       return 5;
     }else{
       return 6;
     }
   }
   async mudarConfigBasicas(){
-    const modal = await this.modalCtrl.create({
+    const modal = await this.controle.create({
       component: ConfigBasicasPage,
     });
     modal.present();
@@ -166,7 +170,7 @@ export class Tab1Page implements OnInit{
    }
 
   async mudarImagem(){
-    const modal = await this.modalCtrl.create({
+    const modal = await this.controle.create({
       component: ImageUploadPage,
     });
     modal.present();
@@ -181,14 +185,14 @@ export class Tab1Page implements OnInit{
    rolldice(treidado:boolean, atributo:number){
       const treinamento = this.modBP();
       if(treidado){
-        this.diceRoler.rolarDado('1d20',atributo + treinamento);
+        this.rolagem.rolarDado('1d20',atributo + treinamento);
       } else {
-        this.diceRoler.rolarDado('1d20',atributo);
+        this.rolagem.rolarDado('1d20',atributo);
       }
    }
 
   initializePericias(){
-    this.periciasForm = this.formBuilder.group({
+    this.periciasForm = this.construtorForm.group({
       acrobacia:[false,[Validators.required]],
       arcanismo:[false,[Validators.required]],
       atletismo:[false,[Validators.required]],
@@ -211,7 +215,7 @@ export class Tab1Page implements OnInit{
 
   }
   initializeForm(){
-    this.sheetForm = this.formBuilder.group({
+    this.sheetForm = this.construtorForm.group({
       nome:['',[Validators.required]],
       classe:['',[Validators.required]],
       nivel:['',[Validators.required]],
@@ -265,5 +269,17 @@ export class Tab1Page implements OnInit{
   ngOnInit(){
 
   }
-
+  
+  bonusIniciante():boolean{
+    return this.ficha.nivel <= 1 && this.ficha.nivel <= 4
+  }
+  bonusAventureiro():boolean{
+    return this.ficha.nivel <= 5 && this.ficha.nivel <= 8
+  }
+  bonusAvancado():boolean{
+    return this.ficha.nivel <= 9 && this.ficha.nivel <= 12
+  }
+  bonusExperiente():boolean{
+    return this.ficha.nivel <= 13 && this.ficha.nivel <= 16
+  }
 }

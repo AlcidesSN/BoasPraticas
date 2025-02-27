@@ -11,9 +11,9 @@ import { CriarMagiaPage } from '../Modal/criar-magia/criar-magia.page';
 })
 export class Tab4Page implements OnInit {
 
-  constructor(private modalCtrl:ModalController,
-    private alertController:AlertController,
-    private storageProvider:FichasService) { }
+  constructor(private controle:ModalController,
+    private alertas:AlertController,
+    private forneceDados:FichasService) { }
 
   ngOnInit() {
     this.pegarMagias();
@@ -23,14 +23,14 @@ export class Tab4Page implements OnInit {
   circulo:number[] = [0,1,2,3,4,5,6,7,8,9];
   
   pegarMagias(){
-    this.storageProvider.getAll()
+    this.forneceDados.pegarInformacoes()
     .then((ficha) => this.magias = ficha[0].magias)
     .catch((err) => alert(err));
   }
 
 
 async openCriarMagias(){
-  const modal = await this.modalCtrl.create({
+  const modal = await this.controle.create({
     component: CriarMagiaPage,
   });
   modal.present();
@@ -39,11 +39,11 @@ async openCriarMagias(){
   if(role == 'cancel')
     return;
   this.magias.push(data);
-  this.storageProvider.salvarMagias(this.magias);
+  this.forneceDados.salvarMagias(this.magias);
  }
  
  async apagarItem(i:number){
-  const alert = await this.alertController.create({
+  const alert = await this.alertas.create({
     header: 'Excluir Habilidades',
     message: 'Deseja mesmo excluir o Habilidades',
     buttons: [
@@ -55,7 +55,7 @@ async openCriarMagias(){
         text: 'Excluir',
         handler: () => {
           this.magias.splice(i,1);
-          this.storageProvider.salvarMagias(this.magias);
+          this.forneceDados.salvarMagias(this.magias);
         }
       }
     ],

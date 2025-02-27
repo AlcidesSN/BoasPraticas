@@ -14,16 +14,16 @@ import { Tab1Page } from '../tab1/tab1.page';
 export class Tab2Page implements OnInit{
 
   constructor(
-    private modalCtrl:ModalController,
-    private alertController:AlertController,
-    private storageProvider:FichasService,
-    private diceRoler:RolldicesService,) {}
+    private controle:ModalController,
+    private alertas:AlertController,
+    private forneceDados:FichasService,
+    private rolagem:RolldicesService,) {}
 
   ngOnInit(): void {
     this.pegarEquipamentos();
   }
   pegarEquipamentos(){
-    this.storageProvider.getAll()
+    this.forneceDados.pegarInformacoes()
     .then((ficha) => this.equipamento = ficha[0].equipamentos)
     .catch((err) => alert(err));
   }
@@ -33,7 +33,7 @@ export class Tab2Page implements OnInit{
 
 
    async openCriarEquipamento(){
-    const modal = await this.modalCtrl.create({
+    const modal = await this.controle.create({
       component: CriarEquipamentoPage,
     });
     modal.present();
@@ -42,10 +42,10 @@ export class Tab2Page implements OnInit{
     if(role == 'cancel')
       return;
     this.equipamento.push(data);
-    this.storageProvider.salvarEquipamento(this.equipamento)
+    this.forneceDados.salvarEquipamento(this.equipamento)
    }
     modBP():any {
-    this.storageProvider.getAll()
+    this.forneceDados.pegarInformacoes()
     .then((ficha) => {
       this.nivel = ficha[0].nivel
 
@@ -67,37 +67,37 @@ export class Tab2Page implements OnInit{
    async rolarDado(i:number){
     for (let index = 0; index < this.equipamento[i].propriedades.length; index++) {
       if (this.equipamento[i].propriedades[index] == 'Acuidade') {
-        const alert = await this.alertController.create({
+        const alerta = await this.alertas.create({
           header: 'Arma com Acuidade',
           message: 'Deseja atacar com força ou destreza?',
           buttons: [
             {
               text: 'Força',
               handler: () => {
-                this.storageProvider.getAll()
-                .then((ficha) => this.diceRoler.rolarDado(this.equipamento[i].dano,(Math.round((ficha[0].for - 10)/2))) );
+                this.forneceDados.pegarInformacoes()
+                .then((ficha) => this.rolagem.rolarDado(this.equipamento[i].dano,(Math.round((ficha[0].for - 10)/2))) );
               }
             },
             {
               text: 'Destreza',
               handler: () => {
-                this.storageProvider.getAll()
-                .then((ficha) => this.diceRoler.rolarDado(this.equipamento[i].dano,(Math.round((ficha[0].des - 10)/2))) );
+                this.forneceDados.pegarInformacoes()
+                .then((ficha) => this.rolagem.rolarDado(this.equipamento[i].dano,(Math.round((ficha[0].des - 10)/2))) );
               }
             }
           ],
           });
-          await alert.present();
+          await alerta.present();
           return;
         }
 
     }
-    this.storageProvider.getAll()
-    .then((ficha) => this.diceRoler.rolarDado(this.equipamento[i].dano,(Math.round((ficha[0].for - 10)/2))) );
+    this.forneceDados.pegarInformacoes()
+    .then((ficha) => this.rolagem.rolarDado(this.equipamento[i].dano,(Math.round((ficha[0].for - 10)/2))) );
     
    }
    async apagarItem(i:number){
-    const alert = await this.alertController.create({
+    const alerta = await this.alertas.create({
       header: 'Excluir Equipamento',
       message: 'Deseja mesmo excluir o equipamento',
       buttons: [
@@ -109,13 +109,13 @@ export class Tab2Page implements OnInit{
           text: 'Excluir',
           handler: () => {
             this.equipamento.splice(i,1);
-            this.storageProvider.salvarEquipamento(this.equipamento);
+            this.forneceDados.salvarEquipamento(this.equipamento);
           }
         }
       ],
       });
       
-      await alert.present();
+      await alerta.present();
    }
 
 

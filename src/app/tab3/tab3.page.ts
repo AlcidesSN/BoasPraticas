@@ -11,15 +11,15 @@ import { Habilidades } from 'src/model/ficha';
 })
 export class Tab3Page implements OnInit {
 
-  constructor(private modalCtrl:ModalController,
-  private alertController:AlertController,
-  private storageProvider:FichasService)
+  constructor(private controle:ModalController,
+  private alertas:AlertController,
+  private forneceDados:FichasService)
   {}
   ngOnInit(): void {
     this.pegarEquipamentos();
   }
   pegarEquipamentos(){
-    this.storageProvider.getAll()
+    this.forneceDados.pegarInformacoes()
     .then((ficha) => this.habilidades = ficha[0].habilidades)
     .catch((err) => alert(err));
   }
@@ -28,7 +28,7 @@ export class Tab3Page implements OnInit {
   habilidades:Habilidades[] = [];
 
   async openCriarHabilidade(){
-    const modal = await this.modalCtrl.create({
+    const modal = await this.controle.create({
       component: CriarHabilidadePage,
     });
     modal.present();
@@ -37,11 +37,11 @@ export class Tab3Page implements OnInit {
     if(role == 'cancel')
       return;
     this.habilidades.push(data);
-    this.storageProvider.salvarHabilidades(this.habilidades)
+    this.forneceDados.salvarHabilidades(this.habilidades)
  }
  
  async apagarItem(i:number){
-  const alert = await this.alertController.create({
+  const alert = await this.alertas.create({
     header: 'Excluir Habilidades',
     message: 'Deseja mesmo excluir o Habilidades',
     buttons: [
@@ -53,7 +53,7 @@ export class Tab3Page implements OnInit {
         text: 'Excluir',
         handler: () => {
           this.habilidades.splice(i,1);
-          this.storageProvider.salvarHabilidades(this.habilidades);
+          this.forneceDados.salvarHabilidades(this.habilidades);
         }
       }
     ],
